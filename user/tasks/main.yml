@@ -1,0 +1,26 @@
+---
+# tasks file for user
+- name: Create "panda" group
+  ansible.builtin.group:
+          name: panda
+          state: present
+
+- name: Create "panda" user
+  ansible.builtin.user:
+          name: panda
+          shell: /usr/bin/bash
+          groups: panda,sudo
+
+#- name: Copy authorized_key
+#  ansible.builtin.copy:
+#          src: /home/vagrant/.ssh/authorized_keys
+#          dest: /home/panda/.ssh/authorized_keys
+#          owner: panda
+#          group: panda
+#          mode: u=rw,g=,o=
+
+- name: Set authorized_keys
+  ansible.posix.authorized_key:
+          user: panda
+          state: present
+          key: "{{ lookup('file', '/home/vagrant/.ssh/id_rsa.pub') }}"

@@ -1,0 +1,7 @@
+# playbook do odpalania roli z zadania z Ansible_2.pdf:29
+- name: Packages
+  hosts: local
+  connection: local
+  become: true
+  roles:
+          - packages
